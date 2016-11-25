@@ -1,0 +1,2 @@
+C:\Users\jacko\OneDrive\Documents\GitHub\Game1\Game1\obj\x86\Debug\Projet_01.csprojResolveAssemblyReference.cache
+D:\Desktop\monogame-travail-1-jackauger100\Game1\Game1\obj\x86\Debug\Projet_01.csprojResolveAssemblyReference.cache

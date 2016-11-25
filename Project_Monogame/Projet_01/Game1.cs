@@ -1,13 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using System;
 
 namespace Projet_01
 {
     /// <summary>
-    /// This is th e main type for your game.
+    /// This is the main type for your game.
     /// </summary>
     public class Game1 : Game
     {
@@ -17,14 +16,9 @@ namespace Projet_01
         GameObject Hero;
         Rectangle fenetre;
         GameObject Monstre;
-        GameObject Feu;
-        GameObject Dead;
         //pour le déplacement du personnage
         int yTaileEcran;
         int xTaileEcran;
-        int vie = 3;
-
-        Random de = new Random();
 
 
         public Game1()
@@ -62,36 +56,20 @@ namespace Projet_01
             Fond = new GameObject();
             Fond.sprite = Content.Load<Texture2D>("Fond.png");
 
-            Dead = new GameObject();
-            Dead.sprite = Content.Load<Texture2D>("Jack.png");
-            Dead.EstVivant = true;
-           
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Hero = new GameObject();
             Hero.EstVivant = true;
-            Hero.position.X = 800;
-            Hero.position.Y = 900;
+            Hero.position.X = 0;
+            Hero.position.Y = 0;
             Hero.sprite = Content.Load<Texture2D>("astronauta.png");
 
-            
-
-            
             Monstre = new GameObject();
             Monstre.EstVivant = true;
             Monstre.position.X = 1600;
-            Monstre.position.Y = 0;
-           Monstre.sprite = Content.Load<Texture2D>("enemy.png");
-            Monstre.vitesse.X = de.Next(-30, 30);
+            Monstre.position.Y = 200;
+            Monstre.sprite = Content.Load<Texture2D>("Monstre.png");
 
-            Feu = new GameObject();
-            Feu.EstVivant = true;
-            Feu.position.X = 1600;
-            Feu.position.Y = 50;
-            Feu.sprite = Content.Load<Texture2D>("Boule_de_feu.png");         
-            Feu.vitesse.Y = de.Next(60,61);
-
-
-            //TODO: use this.Content to load your game content here
+            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -116,19 +94,19 @@ namespace Projet_01
 
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                Hero.position.X -= 5;
+                Hero.position.X -= 2;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                Hero.position.X += 5;
+                Hero.position.X += 2;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                Hero.position.Y -= 10;
+                Hero.position.Y -= 2;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                Hero.position.Y += 10;
+                Hero.position.Y += 2;
             }
 
             // TODO: Add your update logic here
@@ -136,104 +114,41 @@ namespace Projet_01
             base.Update(gameTime);
             UpdateHero();
             UpdateMonstre();
-            UpdateFeu();
         }
         public void UpdateHero()
         {
             
             //Faire apparaite le personnage de l'autre côter de l'écran....
-            if (Hero.position.X > fenetre.Width)
+            if (Hero.position.X > 1900)
             {
                 Hero.position.X = -100;
             }
             if(Hero.position.X < -100)
             {
-                Hero.position.X = fenetre.Width;
+                Hero.position.X = 1900;
             }
-          
-            if(Hero.position.Y + Hero.sprite.Height >= fenetre.Height)
+            if(Hero.position.Y > 1080)
             {
-                Hero.position.Y = fenetre.Height - Hero.sprite.Height;
+                Hero.position.Y = -100;
             }
-            if(Hero.position.Y <= fenetre.Y)
+            if(Hero.position.Y < -100)
             {
-                Hero.position.Y = 0;
-            }
-           if(Hero.GetRect().Intersects(Feu.GetRect()))
-                {
-                Hero.EstVivant = false;
-              }
-              
-            if (Keyboard.GetState().IsKeyDown(Keys.R))
-                {
-                Hero.EstVivant = true;
-                Hero.position.X = 800;
-                Hero.position.Y = 900;
-               
+                Hero.position.Y = 1080;
             }
             
         }
         public void UpdateMonstre()
         {
-         
-          
-          
+            Random Xmove = new Random();
+            Random Ymove = new Random();
+
+            
            
-          
-            Monstre.position.X += Monstre.vitesse.X;
-            if (Monstre.position.X > fenetre.Width)
-            {
-                Monstre.position.X = -100;
-            }
-            if (Monstre.position.X < -100)
-            {
-                Monstre.position.X = fenetre.Width;
-            }
-            if (Monstre.position.Y > fenetre.Height)
-            {
-                Monstre.position.Y = -100;
-            }
-            if (Monstre.position.Y < -100)
-            {
-                Monstre.position.Y = fenetre.Height;
-            }
-            if (Hero.EstVivant == false)
-            {
-                Monstre.position.X = 1600;
-                Monstre.position.Y = 50;
-               
-            }
-
-        }
-        public void UpdateFeu()
-        {          
-
             
-            Feu.position += Feu.vitesse;
-            
-    
-     
-              if(Feu.position.Y > fenetre.Height)
-            {
-                  Feu.position.Y = Monstre.position.Y + 50;
-                   Feu.position.X = Monstre.position.X;
-              
-            }
-            if (Hero.EstVivant == false)
-            {
-             
-                Feu.position.X = 1600;
-                Feu.position.Y = 100;
-            }
-
 
 
 
         }
-
-
-
-
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -247,16 +162,7 @@ namespace Projet_01
 
             spriteBatch.Draw(Fond.sprite, Fond.position, Color.White);
             spriteBatch.Draw(Hero.sprite, Hero.position, Color.White);
-            spriteBatch.Draw(Feu.sprite, Feu.position, Color.White);
             spriteBatch.Draw(Monstre.sprite, Monstre.position, Color.White);
-
-
-            if (Hero.EstVivant == false)
-                { 
-            spriteBatch.Draw(Dead.sprite, Dead.position, Color.White);
-                }
-
-                
 
 
             spriteBatch.End();
