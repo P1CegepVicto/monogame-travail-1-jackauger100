@@ -21,7 +21,8 @@ namespace Project2
         GameObject[] Feu = new GameObject[5];
         GameObject laser;
         GameObject Dead;
-
+        KeyboardState PreviouseKey;
+        
 
         //pour le déplacement du personnage
         int yTaileEcran;
@@ -93,9 +94,10 @@ namespace Project2
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
             laser = new GameObject();
-            laser.EstVivant = true;
+            laser.EstVivant = false;
             laser.position.X = 800;
             laser.position.Y = 900;
+            laser.vitesse.Y = 10;
             laser.sprite = Content.Load<Texture2D>("laser.png");
 
 
@@ -169,7 +171,7 @@ namespace Project2
 
 
             // TODO: Add your update logic here
-
+            PreviouseKey = Keyboard.GetState();
             base.Update(gameTime);
             UpdateHero();
             UpdateMonstre();
@@ -276,10 +278,38 @@ namespace Project2
         }
         public void Updatelaser()
         {
-        
-        
-        
-        
+
+            laser.position.X = Hero.position.X;
+            laser.position.Y = Hero.position.Y;
+           
+
+            if (Keyboard.GetState().IsKeyUp(Keys.Space) && PreviouseKey.IsKeyDown(Keys.Space))
+            {
+                laser.EstVivant = true;
+               
+
+               if (laser.EstVivant == true)
+                { 
+            
+                laser.position.Y -= laser.vitesse.Y;
+            }
+}
+            if (laser.position.Y < fenetre.Y)
+            {
+                
+                laser.position.Y = Hero.position.Y;
+                laser.position.X = Hero.position.X;
+
+            }
+            if (Hero.EstVivant == false)
+            {
+
+                laser.position.X = 820;
+                laser.position.Y = 940;
+            }
+
+
+
         }
 
         /// <summary>
