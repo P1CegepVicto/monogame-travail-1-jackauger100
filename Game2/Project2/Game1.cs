@@ -283,17 +283,17 @@ namespace Project2
             laser.position.Y = Hero.position.Y;
            
 
-            if (Keyboard.GetState().IsKeyUp(Keys.Space) && PreviouseKey.IsKeyDown(Keys.Space))
+            if (Keyboard.GetState().IsKeyUp(Keys.Space)  && PreviouseKey.IsKeyDown(Keys.Space))
             {
                 laser.EstVivant = true;
                
-
+}
                if (laser.EstVivant == true)
                 { 
             
                 laser.position.Y -= laser.vitesse.Y;
             }
-}
+
             if (laser.position.Y < fenetre.Y)
             {
                 
